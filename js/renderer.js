@@ -41,6 +41,24 @@ document.getElementById('btnEmitir').addEventListener('click', async () => {
 });
 
 
+// Substitua apenas a função calcularImpostos antiga no seu renderer.js por esta:
+function calcularImpostos() {
+    // Captura os valores brutos digitados
+    const qtd = parseFloat(inputQtd.value) || 0;
+    const valorUnitario = parseFloat(inputValorUnitario.value) || 0;
+    const aliqIcms = parseFloat(inputAliqIcms.value) || 0;
+    const aliqIpi = parseFloat(inputAliqIpi.value) || 0;
+
+    // Utiliza o arquivo isolado (calculos.js) para processar as regras matemáticas
+    const valorTotalProduto = window.CalculosFiscais.totalProduto(qtd, valorUnitario);
+    const valorIcms = window.CalculosFiscais.icms(valorTotalProduto, aliqIcms);
+    const valorIpi = window.CalculosFiscais.ipi(valorTotalProduto, aliqIpi);
+
+    // Alimenta os campos da tela com os resultados formatados
+    inputValorIcms.value = valorIcms.toFixed(2);
+    inputValorIpi.value = valorIpi.toFixed(2);
+}
+
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
