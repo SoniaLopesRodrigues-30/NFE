@@ -16,7 +16,7 @@
         </header>
        
         
-                <!-- Bloco 0: Identificação da Nota (Adicionado) -->
+         <!-- Bloco 0: Identificação da Nota (Adicionado) -->
         <section class="card">
             <h2>🔢 Dados de Identificação da NF-e</h2>
             <div class="grid-form row-3">
@@ -53,24 +53,18 @@
             </div>
         </section>
        
-       <!-- Bloco 2: Dados do Produto e Configurações Fiscais -->
-        <section class="card">
-            <h2>📦 2. Dados do Produto & Dados Fiscais</h2>
-            
-            <!-- Linha 1: Dados Comerciais -->
-            <div class="grid-form">
-                <div class="form-group grid-span-2">
-                    <label for="prodNome">Descrição do Produto:</label>
-                    <input type="text" id="prodNome" placeholder="Ex: Camiseta Algodão Premium" required>
-                </div>
+               <!-- Linha 2: Unidade, Quantidades, Valores e Total (Atualizado) -->
+            <div class="grid-form row-5" style="margin-top: 15px;">
                 <div class="form-group">
-                    <label for="prodNcm">Código NCM (8 dígitos):</label>
-                    <input type="text" id="prodNcm" placeholder="Ex: 61091000" maxlength="8" required>
+                    <label for="prodUnidade">Unidade:</label>
+                    <select id="prodUnidade" required>
+                        <option value="UN" selected>UN - Unidade</option>
+                        <option value="KG">KG - Quilograma</option>
+                        <option value="PC">PC - Peça</option>
+                        <option value="LT">LT - Litro</option>
+                        <option value="CX">CX - Caixa</option>
+                    </select>
                 </div>
-            </div>
-
-            <!-- Linha 2: Quantidades e Valores -->
-            <div class="grid-form row-3" style="margin-top: 15px;">
                 <div class="form-group">
                     <label for="prodQtd">Quantidade:</label>
                     <input type="number" id="prodQtd" placeholder="1" min="1" value="1" required>
@@ -80,11 +74,16 @@
                     <input type="number" id="prodValor" placeholder="0.00" step="0.01" required>
                 </div>
                 <div class="form-group">
+                    <label for="prodTotal">Valor Total (R$):</label>
+                    <!-- Desabilitado porque o calculos.js vai preencher automaticamente -->
+                    <input type="number" id="prodTotal" placeholder="0.00" value="0.00" disabled style="background-color: #f1f5f9; cursor: not-allowed; font-weight: bold;">
+                </div>
+                <div class="form-group">
                     <label for="prodCfop">CFOP (Operação):</label>
                     <select id="prodCfop" required>
-                        <option value="5102" selected>5102 - Venda dentro do Estado</option>
-                        <option value="6102">6102 - Venda para Outro Estado</option>
-                        <option value="5405">5405 - Venda com Substituição Tributária</option>
+                        <option value="5102" selected>5102 - Venda Interna</option>
+                        <option value="6102">6102 - Venda Outro Estado</option>
+                        <option value="5405">5405 - Venda c/ ST</option>
                     </select>
                 </div>
             </div>
@@ -141,8 +140,38 @@
 </section>
 
 </section>
+        <section class="card">
+            <h2>🚚 3. Dados do Transporte (Frete)</h2>
+            
+            <!-- Linha 1: Modalidade do Frete -->
+            <div class="grid-form">
+                <div class="form-group grid-span-2">
+                    <label for="transpModFrete">Modalidade do Frete:</label>
+                    <select id="transpModFrete" required>
+                        <option value="9" selected>9 - Sem Ocorrência de Transporte (Venda Balcão)</option>
+                        <option value="0">0 - Contratação do Frete por conta do Remetente (CIF)</option>
+                        <option value="1">1 - Contratação do Frete por conta do Destinatário (FOB)</option>
+                        <option value="2">2 - Contratação do Frete por conta de Terceiros</option>
+                    </select>
+                </div>
+            </div>
 
-
+            <!-- Linha 2: Dados da Transportadora (Opcionais se a modalidade for 9) -->
+            <div class="grid-form row-3" style="margin-top: 15px;">
+                <div class="form-group">
+                    <label for="transpNome">Transportadora (Nome/Razão):</label>
+                    <input type="text" id="transpNome" placeholder="Ex: Transportes Rapido LTDA">
+                </div>
+                <div class="form-group">
+                    <label for="transpDoc">CNPJ / CPF Transp.:</label>
+                    <input type="text" id="transpDoc" placeholder="Ex: 00.000.000/0001-00">
+                </div>
+                <div class="form-group">
+                    <label for="transpPlaca">Placa do Veículo:</label>
+                    <input type="text" id="transpPlaca" placeholder="Ex: ABC1D23" maxlength="7">
+                </div>
+            </div>
+        </section>
         <!-- Bloco 3: Botão de Ação e Status -->
         <div class="action-area">
             <button id="btnEmitir" class="btn-success">🔒 Assinar e Transmitir Nota</button>
