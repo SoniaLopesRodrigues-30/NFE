@@ -4,40 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emissor de NF-e Simplificado</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <!-- Vincula o arquivo CSS que está dentro da pasta css -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
     <div class="container">
-        <h1>🚀 Emissor de NF-e</h1>
+        <header>
+            <h1>🚀 Emissor de NF-e v4.00</h1>
+            <p>Preencha os dados abaixo para gerar e emitir a Nota Fiscal.</p>
+        </header>
         
-        <!-- Formulário do Cliente -->
+        <!-- Bloco 1: Dados do Cliente -->
         <section class="card">
-            <h2>1. Dados do Destinatário (Cliente)</h2>
+            <h2>👥 1. Dados do Destinatário (Cliente)</h2>
             <div class="grid-form">
-                <input type="text" id="docCliente" placeholder="CPF ou CNPJ">
-                <input type="text" id="nomeCliente" placeholder="Nome Razão Social">
-                <input type="text" id="ieCliente" placeholder="Inscrição Estadual (se houver)">
+                <div class="form-group">
+                    <label for="docCliente">CPF ou CNPJ:</label>
+                    <input type="text" id="docCliente" placeholder="Ex: 00.000.000/0001-00" required>
+                </div>
+                <div class="form-group">
+                    <label for="nomeCliente">Nome / Razão Social:</label>
+                    <input type="text" id="nomeCliente" placeholder="Ex: João Silva ou Empresa LTDA" required>
+                </div>
             </div>
         </section>
 
-        <!-- Formulário do Produto -->
-        <section class="card">
-            <h2>2. Dados do Produto</h2>
-            <div class="grid-form">
-                <input type="text" id="prodNome" placeholder="Descrição do Produto">
-                <input type="number" id="prodQtd" placeholder="Quantidade" min="1">
-                <input type="number" id="prodValor" placeholder="Valor Unitário (R$)" step="0.01">
-                <input type="text" id="prodNcm" placeholder="NCM do Produto">
-            </div>
-        </section>
-
-        <!-- Botão de Ação -->
-        <button id="btnEmitir" class="btn-success">Assinar e Transmitir Nota</button>
-        
-        <!-- Painel de Status -->
-        <div id="statusPainel" class="status">Aguardando preenchimento...</div>
+        <!-- Bloco 2: Dados do Produto -->
+       <!-- Bloco 2: Dados do Produto e Configurações Fiscais -->
+<section class="card">
+    <h2>📦 2. Dados do Produto & Dados Fiscais</h2>
+    
+    <!-- Linha 1: Dados Comerciais -->
+    <div class="grid-form">
+        <div class="form-group grid-span-2">
+            <label for="prodNome">Descrição do Produto:</label>
+            <input type="text" id="prodNome" placeholder="Ex: Camiseta Algodão Premium" required>
+        </div>
+        <div class="form-group">
+            <label for="prodNcm">Código NCM (8 dígitos):</label>
+            <input type="text" id="prodNcm" placeholder="Ex: 61091000" maxlength="8" required>
+        </div>
     </div>
 
-    <script src="./js/renderer.js"></script>
+    <!-- Linha 2: Quantidades e Valores -->
+    <div class="grid-form row-3" style="margin-top: 15px;">
+        <div class="form-group">
+            <label for="prodQtd">Quantidade:</label>
+            <input type="number" id="prodQtd" placeholder="1" min="1" value="1" required>
+        </div>
+        <div class="form-group">
+            <label for="prodValor">Valor Unitário (R$):</label>
+            <input type="number" id="prodValor" placeholder="0.00" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="prodCfop">CFOP (Operação):</label>
+            <select id="prodCfop" required>
+                <option value="5102" selected>5102 - Venda dentro do Estado</option>
+                <option value="6102">6102 - Venda para Outro Estado</option>
+                <option value="5405">5405 - Venda com Substituição Tributária</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Linha 3: Detalhes de Tributação (Essencial para o XML) -->
+    <div class="grid-form" style="margin-top: 15px;">
+        <div class="form-group">
+            <label for="prodOrigem">Origem da Mercadoria:</label>
+            <select id="prodOrigem" required>
+                <option value="0" selected>0 - Nacional</option>
+                <option value="1">1 - Estrangeira (Importação Direta)</option>
+                <option value="2">2 - Estrangeira (Adquirida no Mercado Interno)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="prodCsosn">CSOSN (Regime Simples Nacional):</label>
+            <select id="prodCsosn" required>
+                <option value="102" selected>102 - Tributada sem permissão de crédito</option>
+                <option value="101">101 - Tributada com permissão de crédito</option>
+                <option value="400">400 - Não tributada pelo Simples Nacional</option>
+            </select>
+        </div>
+    </div>
+
+          <!-- Linha 4: Dados do ICMS e IPI (Atualizado) -->
+    <div class="grid-form row-4" style="margin-top: 15px;">
+        <div class="form-group">
+            <label for="prodAliqIcms">Alíquota ICMS (%):</label>
+            <input type="number" id="prodAliqIcms" placeholder="Ex: 18.00" step="0.01" value="0.00">
+        </div>
+        
+        <div class="form-group">
+            <label for="prodCstIpi">CST do IPI:</label>
+            <select id="prodCstIpi" required>
+                <option value="99" selected>99 - Outras Saídas (Padrão)</option>
+                <option value="50">50 - Saída Tributada</option>
+                <option value="53">53 - Saída Não Tributada</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="prodAliqIpi">Alíquota IPI (%):</label>
+            <input type="number" id="prodAliqIpi" placeholder="Ex: 5.00" step="0.01" value="0.00">
+        </div>
+
+        <div class="form-group">
+            <label for="prodValorIpi">Valor do IPI (R$):</label>
+            <!-- Também desabilitado para o JavaScript calcular automaticamente -->
+            <input type="number" id="prodValorIpi" placeholder="0.00" step="0.01" value="0.00" disabled style="background-color: #f1f5f9; cursor: not-allowed;">
+        </div>
+    </div>
+</section>
+
+</section>
+
+</section>
+
+
+        <!-- Bloco 3: Botão de Ação e Status -->
+        <div class="action-area">
+            <button id="btnEmitir" class="btn-success">🔒 Assinar e Transmitir Nota</button>
+            <div id="statusPainel" class="status-box status-waiting">
+                Aguardando preenchimento dos dados...
+            </div>
+        </div>
+    </div>
+
+    <!-- Vincula o arquivo JavaScript que está dentro da pasta js -->
+    <script src="js/renderer.js"></script>
 </body>
 </html>
