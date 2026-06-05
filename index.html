@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emissor de NF-e Simplificado</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Emissor de NF-e</h1>
+        
+        <!-- Formulário do Cliente -->
+        <section class="card">
+            <h2>1. Dados do Destinatário (Cliente)</h2>
+            <div class="grid-form">
+                <input type="text" id="docCliente" placeholder="CPF ou CNPJ">
+                <input type="text" id="nomeCliente" placeholder="Nome Razão Social">
+                <input type="text" id="ieCliente" placeholder="Inscrição Estadual (se houver)">
+            </div>
+        </section>
+
+        <!-- Formulário do Produto -->
+        <section class="card">
+            <h2>2. Dados do Produto</h2>
+            <div class="grid-form">
+                <input type="text" id="prodNome" placeholder="Descrição do Produto">
+                <input type="number" id="prodQtd" placeholder="Quantidade" min="1">
+                <input type="number" id="prodValor" placeholder="Valor Unitário (R$)" step="0.01">
+                <input type="text" id="prodNcm" placeholder="NCM do Produto">
+            </div>
+        </section>
+
+        <!-- Botão de Ação -->
+        <button id="btnEmitir" class="btn-success">Assinar e Transmitir Nota</button>
+        
+        <!-- Painel de Status -->
+        <div id="statusPainel" class="status">Aguardando preenchimento...</div>
+    </div>
+
+    <script src="./js/renderer.js"></script>
+</body>
+</html>
