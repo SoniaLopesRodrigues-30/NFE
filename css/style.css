@@ -40,11 +40,6 @@ header p {
     font-size: 0.95rem;
 }
 
-
-.grid-form.row-5 {
-    grid-template-columns: repeat(5, 1fr);
-}
-
 /* ==========================================================================
    3. CARTÕES DE FORMULÁRIO (CARDS)
    ========================================================================== */
@@ -74,17 +69,18 @@ header p {
     gap: 15px;
 }
 
-/* Variação para linhas com 3 colunas (Identificação, quantidades, etc) */
 .grid-form.row-3 {
     grid-template-columns: repeat(3, 1fr);
 }
 
-/* Variação para linhas com 4 colunas (Impostos: ICMS e IPI) */
 .grid-form.row-4 {
     grid-template-columns: repeat(4, 1fr);
 }
 
-/* Ocupar duas colunas no grid quando necessário */
+.grid-form.row-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
 .grid-span-2 {
     grid-column: span 2;
 }
@@ -101,7 +97,6 @@ label {
     color: #475569;
 }
 
-/* Estilização de Inputs e Selects */
 input, select {
     width: 100%;
     padding: 10px 12px;
@@ -189,7 +184,10 @@ input::placeholder {
     color: #991b1b;
     border-color: #fecaca;
 }
-/* Container dos botões das abas */
+
+/* ==========================================================================
+   7. MENU DE BOTÕES DAS ABAS (NAVEGAÇÃO)
+   ========================================================================== */
 .tabs-container {
     display: flex;
     gap: 10px;
@@ -199,7 +197,6 @@ input::placeholder {
     overflow-x: auto;
 }
 
-/* Botões individuais de abas */
 .tab-btn {
     padding: 10px 20px;
     font-size: 15px;
@@ -218,28 +215,31 @@ input::placeholder {
     color: #1e293b;
 }
 
-/* Aba ativa */
 .tab-btn.active {
     background-color: #3b82f6;
     color: white;
+    font-weight: bold;
 }
 
-/* Esconde o transbordo para criar o efeito de janela */
+/* ==========================================================================
+   8. SISTEMA DE SLIDER DAS ABAS (CORRIGIDO PARA 3 ABAS)
+   ========================================================================== */
 .tabs-wrapper {
-    overflow: hidden;
     width: 100%;
+    overflow: hidden; /* Corta o conteúdo sobressalente horizontal */
 }
 
-/* O "trilho" que move os blocos para os lados */
 .tabs-slider {
     display: flex;
-    width: 400%; /* 4 abas = 400% da largura */
+    width: 300%; /* Mantém as 3 abas em linha (100% de largura visível cada) */
+    box-sizing: border-box;
+    will-change: transform;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Cada aba ocupa exatamente a largura total do container */
 .tab-content {
-    width: 25%; /* 100% dividido por 4 abas */
-    flex-shrink: 0;
+    width: 100%; /* Cada aba assume a largura exata do container visível */
+    flex-shrink: 0; /* Impede o flexbox de esmagar os formulários internos */
     box-sizing: border-box;
+    padding: 0 4px; /* Pequeno espaçamento para os cards não colarem nas bordas */
 }

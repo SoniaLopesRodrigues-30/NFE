@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <!-- Vincula o arquivo CSS que está dentro da pasta css -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
     <div class="container">
@@ -14,34 +16,34 @@
             <h1>🚀 Emissor de NF-e v4.00</h1>
             <p>Preencha os dados abaixo para gerar e emitir a Nota Fiscal.</p>
         </header>
-       
-        <!-- Bloco 0: Identificação da Nota -->
-        <section class="card">
-            <h2>🔢 Dados de Identificação da NF-e</h2>
-            <div class="grid-form row-3">
-                <div class="form-group">
-                    <label for="nNF">Número da Nota:</label>
-                    <input type="number" id="nNF" placeholder="Ex: 15" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="serie">Série:</label>
-                    <input type="number" id="serie" placeholder="Ex: 1" min="1" value="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="tpAmb">Ambiente SEFAZ:</label>
-                    <select id="tpAmb" required>
-                        <option value="2" selected>2 - Homologação (Testes)</option>
-                        <option value="1">1 - Produção (Validade Fiscal)</option>
-                    </select>
-                </div>
-            </div>
-        </section>
 
         <!-- Formulário principal para envio e validação -->
         <form id="formNfe">
 
+            <!-- Bloco 0: Identificação da Nota (Movido para dentro do form para enviar os dados) -->
+            <section class="card">
+                <h2>🔢 Dados de Identificação da NF-e</h2>
+                <div class="grid-form row-3">
+                    <div class="form-group">
+                        <label for="nNF">Número da Nota:</label>
+                        <input type="number" id="nNF" placeholder="Ex: 15" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serie">Série:</label>
+                        <input type="number" id="serie" placeholder="Ex: 1" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tpAmb">Ambiente SEFAZ:</label>
+                        <select id="tpAmb" required>
+                            <option value="2" selected>2 - Homologação (Testes)</option>
+                            <option value="1">1 - Produção (Validade Fiscal)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
             <!-- Menu de Abas (Navegação) -->
-            <div class="tabs-container">       
+            <div class="tabs-container">
                 <button type="button" class="tab-btn" onclick="alterarAba(1)">👥 Cliente</button>
                 <button type="button" class="tab-btn" onclick="alterarAba(2)">📦 Produto</button>
                 <button type="button" class="tab-btn" onclick="alterarAba(3)">🚚 Transporte</button>
@@ -49,7 +51,7 @@
 
             <!-- Container Deslizante das Abas -->
             <div class="tabs-wrapper">
-                <div class="tabs-slider" id="tabsSlider">          
+                <div class="tabs-slider" id="tabsSlider">
 
                     <!-- Aba 1: Dados do Cliente -->
                     <div class="tab-content">
@@ -67,12 +69,12 @@
                             </div>
                         </section>
                     </div>
-               
+
                     <!-- Aba 2: Dados do Produto -->
                     <div class="tab-content">
                         <section class="card">
                             <h2>📦 2. Dados do Produto / Serviço</h2>
-                            
+
                             <div class="grid-form row-3">
                                 <div class="form-group">
                                     <label for="prodCodigo">Código do Produto:</label>
@@ -107,121 +109,121 @@
                                     <label for="prodValor">Valor Unitário (R$):</label>
                                     <input type="number" id="prodValor" placeholder="0.00" step="0.01" required>
                                 </div>
+                                <div class="form-group">
+                                    <label for="prodTotal">Valor Total (R$):</label>
+                                    <input type="number" id="prodTotal" placeholder="0.00" value="0.00" disabled style="background-color: #f1f5f9; cursor: not-allowed; font-weight: bold;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prodCfop">CFOP (Operação):</label>
+                                    <select id="prodCfop" required>
+                                        <option value="5102" selected>5102 - Venda Interna</option>
+                                        <option value="6102">6102 - Venda Outro Estado</option>
+                                        <option value="5405">5405 - Venda c/ ST</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Linha 3: Origem e Enquadramento Tributário -->
+                            <div class="grid-form row-2" style="margin-top: 15px;">
+                                <div class="form-group">
+                                    <label for="prodOrigem">Origem da Mercadoria:</label>
+                                    <select id="prodOrigem" required>
+                                        <option value="0" selected>0 - Nacional</option>
+                                        <option value="1">1 - Estrangeira (Importação Direta)</option>
+                                        <option value="2">2 - Estrangeira (Adquirida no Mercado Interno)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prodCsosn">CSOSN (Regime Simples Nacional):</label>
+                                    <select id="prodCsosn" required>
+                                        <option value="102" selected>102 - Tributada sem permissão de crédito</option>
+                                        <option value="101">101 - Tributada com permissão de crédito</option>
+                                        <option value="400">400 - Não tributada pelo Simples Nacional</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Linha 4: Alíquotas e Impostos -->
+                            <div class="grid-form row-4" style="margin-top: 15px;">
+                                <div class="form-group">
+                                    <label for="prodAliqIcms">Alíquota ICMS (%):</label>
+                                    <input type="number" id="prodAliqIcms" placeholder="Ex: 18.00" step="0.01" value="0.00">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prodCstIpi">CST do IPI:</label>
+                                    <select id="prodCstIpi" required>
+                                        <option value="99" selected>99 - Outras Saídas (Padrão)</option>
+                                        <option value="50">50 - Saída Tributada</option>
+                                        <option value="53">53 - Saída Não Tributada</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prodAliqIpi">Alíquota IPI (%):</label>
+                                    <input type="number" id="prodAliqIpi" placeholder="Ex: 5.00" step="0.01" value="0.00">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prodValorIpi">Valor do IPI (R$):</label>
+                                    <input type="number" id="prodValorIpi" placeholder="0.00" step="0.01" value="0.00" disabled style="background-color: #f1f5f9; cursor: not-allowed;">
+                                </div>
                             </div>
                         </section>
                     </div>
-                        <!-- Continuação da Aba 2: Campos restantes do produto -->
-                        <div class="form-group">
-                            <label for="prodTotal">Valor Total (R$):</label>
-                            <input type="number" id="prodTotal" placeholder="0.00" value="0.00" disabled style="background-color: #f1f5f9; cursor: not-allowed; font-weight: bold;">
-                        </div>
-                        <div class="form-group">
-                            <label for="prodCfop">CFOP (Operação):</label>
-                            <select id="prodCfop" required>
-                                <option value="5102" selected>5102 - Venda Interna</option>
-                                <option value="6102">6102 - Venda Outro Estado</option>
-                                <option value="5405">5405 - Venda c/ ST</option>
-                            </select>
-                        </div>
+
+                    <!-- Aba 3: Dados do Transporte -->
+                    <div class="tab-content">
+                        <section class="card">
+                            <h2>🚚 3. Dados do Transporte (Frete)</h2>
+
+                            <!-- Linha 1: Modalidade do Frete -->
+                            <div class="grid-form">
+                                <div class="form-group grid-span-2">
+                                    <label for="transpModFrete">Modalidade do Frete:</label>
+                                    <select id="transpModFrete" required>
+                                        <option value="9" selected>9 - Sem Ocorrência de Transporte (Venda Balcão)</option>
+                                        <option value="0">0 - Contratação do Frete por conta do Remetente (CIF)</option>
+                                        <option value="1">1 - Contratação do Frete por conta do Destinatário (FOB)</option>
+                                        <option value="2">2 - Contratação do Frete por conta de Terceiros</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Linha 2: Dados da Transportadora -->
+                            <div class="grid-form row-3" style="margin-top: 15px;">
+                                <div class="form-group">
+                                    <label for="transpNome">Transportadora (Nome/Razão):</label>
+                                    <input type="text" id="transpNome" placeholder="Ex: Transportes Rápido LTDA">
+                                </div>
+                                <div class="form-group">
+                                    <label for="transpDoc">CNPJ / CPF Transp.:</label>
+                                    <input type="text" id="transpDoc" placeholder="Ex: 00.000.000/0001-00">
+                                </div>
+                                <div class="form-group">
+                                    <label for="transpPlaca">Placa do Veículo:</label>
+                                    <input type="text" id="transpPlaca" placeholder="Ex: ABC1D23" maxlength="7">
+                                </div>
+                            </div>
+                        </section>
                     </div>
 
-                    <div class="grid-form" style="margin-top: 15px;">
-                        <div class="form-group">
-                            <label for="prodOrigem">Origem da Mercadoria:</label>
-                            <select id="prodOrigem" required>
-                                <option value="0" selected>0 - Nacional</option>
-                                <option value="1">1 - Estrangeira (Importação Direta)</option>
-                                <option value="2">2 - Estrangeira (Adquirida no Mercado Interno)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="prodCsosn">CSOSN (Regime Simples Nacional):</label>
-                            <select id="prodCsosn" required>
-                                <option value="102" selected>102 - Tributada sem permissão de crédito</option>
-                                <option value="101">101 - Tributada com permissão de crédito</option>
-                                <option value="400">400 - Não tributada pelo Simples Nacional</option>
-                            </select>
-                        </div>
-                    </div>
+                </div> <!-- Fim do #tabsSlider -->
+            </div> <!-- Fim da .tabs-wrapper -->
 
-                    <div class="grid-form row-4" style="margin-top: 15px;">
-                        <div class="form-group">
-                            <label for="prodAliqIcms">Alíquota ICMS (%):</label>
-                            <input type="number" id="prodAliqIcms" placeholder="Ex: 18.00" step="0.01" value="0.00">
-                        </div>
-                        <div class="form-group">
-                            <label for="prodCstIpi">CST do IPI:</label>
-                            <select id="prodCstIpi" required>
-                                <option value="99" selected>99 - Outras Saídas (Padrão)</option>
-                                <option value="50">50 - Saída Tributada</option>
-                                <option value="53">53 - Saída Não Tributada</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="prodAliqIpi">Alíquota IPI (%):</label>
-                            <input type="number" id="prodAliqIpi" placeholder="Ex: 5.00" step="0.01" value="0.00">
-                        </div>
-                        <div class="form-group">
-                            <label for="prodValorIpi">Valor do IPI (R$):</label>
-                            <input type="number" id="prodValorIpi" placeholder="0.00" step="0.01" value="0.00" disabled style="background-color: #f1f5f9; cursor: not-allowed;">
-                        </div>
-                    </div>
-                </section>
+            <!-- Bloco 3: Botão de Ação e Status -->
+            <div class="action-area">
+                <button type="submit" id="btnEmitir" class="btn-success">🔒 Assinar e Transmitir Nota</button>
+                <div id="statusPainel" class="status-box status-waiting">
+                    Aguardando preenchimento dos dados...
+                </div>
             </div>
 
-            <!-- Aba 3: Dados do Transporte -->
-            <div class="tab-content">
-                <section class="card">
-                    <h2>🚚 3. Dados do Transporte (Frete)</h2>
-                    
-                    <!-- Linha 1: Modalidade do Frete -->
-                    <div class="grid-form">
-                        <div class="form-group grid-span-2">
-                            <label for="transpModFrete">Modalidade do Frete:</label>
-                            <select id="transpModFrete" required>
-                                <option value="9" selected>9 - Sem Ocorrência de Transporte (Venda Balcão)</option>
-                                <option value="0">0 - Contratação do Frete por conta do Remetente (CIF)</option>
-                                <option value="1">1 - Contratação do Frete por conta do Destinatário (FOB)</option>
-                                <option value="2">2 - Contratação do Frete por conta de Terceiros</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Linha 2: Dados da Transportadora (Opcionais se a modalidade for 9) -->
-                    <div class="grid-form row-3" style="margin-top: 15px;">
-                        <div class="form-group">
-                            <label for="transpNome">Transportadora (Nome/Razão):</label>
-                            <input type="text" id="transpNome" placeholder="Ex: Transportes Rápido LTDA">
-                        </div>
-                        <div class="form-group">
-                            <label for="transpDoc">CNPJ / CPF Transp.:</label>
-                            <input type="text" id="transpDoc" placeholder="Ex: 00.000.000/0001-00">
-                        </div>
-                        <div class="form-group">
-                            <label for="transpPlaca">Placa do Veículo:</label>
-                            <input type="text" id="transpPlaca" placeholder="Ex: ABC1D23" maxlength="7">
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            </div> <!-- Fim da div .tabs-slider -->
-            </div> <!-- Fim da div .tabs-wrapper -->
         </form> <!-- Fim do formulário #formNfe -->
 
-        <!-- Bloco 3: Botão de Ação e Status -->
-        <div class="action-area">
-            <button id="btnEmitir" class="btn-success">🔒 Assinar e Transmitir Nota</button>
-            <div id="statusPainel" class="status-box status-waiting">
-                Aguardando preenchimento dos dados...
-            </div>
-        </div>
-
-    </div> <!-- Fim da div .container -->
+    </div> <!-- Fim da .container -->
 
     <!-- Vincula os arquivos JavaScript que estão dentro da pasta js -->
-    <script src="./js/calculos.js"></script>    
+    <script src="./js/calculos.js"></script>
     <script src="./js/renderer.js"></script>
     <script src="./js/funcoes.js"></script>
 </body>
+
 </html>
