@@ -1,23 +1,38 @@
 /* ==========================================================================
-   1. CONFIGURAÇÕES GERAIS E RESETS
+   1. VARIÁVEIS DE DESIGN MODERNO
    ========================================================================== */
+:root {
+    --bg-body: #f4f6f9;          /* Fundo suave, descansa os olhos */
+    --bg-card: #ffffff;          /* Cards puramente brancos para contraste */
+    --primary: #0f172a;          /* Azul escuro ardósia (sofisticado e moderno) */
+    --accent: #2563eb;           /* Azul royal para links, botões e foco */
+    --success: #059669;          /* Verde esmeralda para sucesso/emissão */
+    --text-main: #334155;        /* Cinza escuro de alta legibilidade para textos */
+    --text-muted: #64748b;       /* Cinza médio para placeholders e labels secundários */
+    --border: #e2e8f0;           /* Bordas super finas e discretas */
+    --border-focus: #93c5fd;     /* Sombra suave de foco */
+    --radius: 10px;              /* Bordas arredondadas modernas */
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+}
+
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    box-sizing: border-box;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
 body {
-    background-color: #f8fafc;
-    color: #1e293b;
-    padding: 40px 20px;
-    line-height: 1.5;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    padding: 30px 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .container {
-    max-width: 900px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 1050px;
 }
 
 /* ==========================================================================
@@ -25,221 +40,230 @@ body {
    ========================================================================== */
 header {
     margin-bottom: 30px;
-    border-left: 5px solid #3b82f6;
-    padding-left: 15px;
+    text-align: left; /* Alinhamento à esquerda é mais prático e corporativo */
 }
 
 header h1 {
-    font-size: 1.8rem;
-    color: #0f172a;
-    font-weight: 700;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.025em;
 }
 
 header p {
-    color: #64748b;
+    color: var(--text-muted);
     font-size: 0.95rem;
+    margin-top: 4px;
 }
 
 /* ==========================================================================
-   3. CARTÕES DE FORMULÁRIO (CARDS)
+   3. SEÇÕES E CARDS
    ========================================================================== */
 .card {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    margin-bottom: 25px;
-    border: 1px solid #e2e8f0;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
 }
 
 .card h2 {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
     margin-bottom: 20px;
-    color: #334155;
-    border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* ==========================================================================
-   4. ESTRUTURA DOS CAMPOS (GRID & LAYOUT)
-   ========================================================================== */
+/* Grid Inteligente e Responsivo */
 .grid-form {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: 1fr;
+    gap: 16px;
 }
 
-.grid-form.row-3 {
-    grid-template-columns: repeat(3, 1fr);
+@media (min-width: 768px) {
+    .grid-form { grid-template-columns: repeat(12, 1fr); }
+    
+    /* Distribuição automática baseada nas classes do seu HTML */
+    .row-2 > .form-group { grid-column: span 6; }
+    .row-3 > .form-group { grid-column: span 4; }
+    .row-4 > .form-group { grid-column: span 3; }
+    
+    /* Caso especial: Grid de 5 colunas para a linha de valores do produto */
+    .row-5 { grid-template-columns: repeat(5, 1fr); }
+    .row-5 > .form-group { grid-column: auto; }
+    
+    .grid-span-2 { grid-column: span 12; }
 }
 
-.grid-form.row-4 {
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.grid-form.row-5 {
-    grid-template-columns: repeat(5, 1fr);
-}
-
-.grid-span-2 {
-    grid-column: span 2;
-}
-
+/* Inputs e Elementos de Formulário */
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-label {
-    font-size: 0.85rem;
+.form-group label {
+    font-size: 0.8rem;
     font-weight: 600;
-    color: #475569;
+    color: var(--text-muted);
+    text-transform: uppercase; /* Aparência limpa de sistema ERP */
+    letter-spacing: 0.05em;
 }
 
-input, select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    color: #1e293b;
-    background-color: #fff;
-    transition: all 0.2s ease;
-}
-
-input:focus, select:focus {
+.form-group input,
+.form-group select {
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    background-color: #fbfcfe;
     outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-
-input::placeholder {
-    color: #94a3b8;
-}
-
-/* ==========================================================================
-   5. ÁREA DE AÇÃO E BOTÕES
-   ========================================================================== */
-.action-area {
-    margin-top: 30px;
-}
-
-.btn-success {
-    width: 100%;
-    padding: 16px;
-    background-color: #10b981;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
     transition: all 0.2s ease;
 }
 
-.btn-success:hover {
-    background-color: #059669;
-    transform: translateY(-1px);
+/* Foco Moderno */
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--accent);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
-.btn-success:active {
-    transform: translateY(0);
-}
-
-/* ==========================================================================
-   6. PAINEL DE STATUS DA EMISSÃO
-   ========================================================================== */
-.status-box {
-    margin-top: 20px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-align: center;
-    border: 1px solid transparent;
-}
-
-.status-waiting {
-    background-color: #f1f5f9;
-    color: #475569;
+/* Inputs Bloqueados (Ex: Totais calculados) */
+.form-group input:disabled {
+    background-color: #f1f5f9 !important;
     border-color: #e2e8f0;
-}
-
-.status-process {
-    background-color: #fef08a;
-    color: #854d0e;
-    border-color: #fef08a;
-}
-
-.status-success {
-    background-color: #dcfce7;
-    color: #166534;
-    border-color: #bbf7d0;
-}
-
-.status-error {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border-color: #fecaca;
+    color: #94a3b8;
+    cursor: not-allowed;
+    font-weight: 600;
 }
 
 /* ==========================================================================
-   7. MENU DE BOTÕES DAS ABAS (NAVEGAÇÃO)
+   4. MENU DE ABAS (DESIGN MODERNO)
    ========================================================================== */
 .tabs-container {
     display: flex;
-    gap: 10px;
+    background-color: #e2e8f0;
+    padding: 4px;
+    border-radius: 8px;
+    gap: 4px;
     margin-bottom: 20px;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 10px;
-    overflow-x: auto;
 }
 
 .tab-btn {
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #64748b;
-    background: none;
+    flex: 1;
+    padding: 10px;
+    background-color: transparent;
     border: none;
-    cursor: pointer;
     border-radius: 6px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .tab-btn:hover {
-    background-color: #f1f5f9;
-    color: #1e293b;
+    color: var(--primary);
 }
 
+/* Aba ativa simula um bloco sólido flutuante */
 .tab-btn.active {
-    background-color: #3b82f6;
-    color: white;
-    font-weight: bold;
+    background-color: var(--bg-card);
+    color: var(--primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* ==========================================================================
-   8. SISTEMA DE SLIDER DAS ABAS (CORRIGIDO PARA 3 ABAS)
-   ========================================================================== */
+/* Estrutura Deslizante compatível com seu JS (-100%) */
 .tabs-wrapper {
+    overflow: hidden;
     width: 100%;
-    overflow: hidden; /* Corta o conteúdo sobressalente horizontal */
 }
 
 .tabs-slider {
     display: flex;
-    width: 300%; /* Mantém as 3 abas em linha (100% de largura visível cada) */
-    box-sizing: border-box;
-    will-change: transform;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
 }
 
 .tab-content {
-    width: 100%; /* Cada aba assume a largura exata do container visível */
-    flex-shrink: 0; /* Impede o flexbox de esmagar os formulários internos */
-    box-sizing: border-box;
-    padding: 0 4px; /* Pequeno espaçamento para os cards não colarem nas bordas */
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   5. BOTÕES DE AÇÃO E MENUS DE STATUS
+   ========================================================================== */
+.action-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+@media (min-width: 600px) {
+    .action-area {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.btn-success {
+    background-color: var(--success);
+    color: white;
+    border: none;
+    height: 48px;
+    padding: 0 32px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-success:hover {
+    background-color: #047857;
+    box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
+}
+
+/* Painel de Status Fluido */
+.status-box {
+    flex: 1;
+    height: 48px;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+}
+
+.status-waiting {
+    background-color: #fffbeb;
+    color: #b45309;
+    border-color: #fde68a;
+}
+
+.status-success {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border-color: #a7f3d0;
+}
+
+.status-error {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-color: #fca5a5;
 }
