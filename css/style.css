@@ -91,9 +91,7 @@ header p {
     /* Distribuição automática baseada nas classes do seu HTML */
     .row-2 > .form-group { grid-column: span 6; }
     .row-3 > .form-group { grid-column: span 4; }
-    .row-4 > .form-group { grid-column: span 3; }
-    
-    /* Caso especial: Grid de 5 colunas para a linha de valores do produto */
+    .row-4 > .form-group { grid-column: span 3; }        
     .row-5 { grid-template-columns: repeat(5, 1fr); }
     .row-5 > .form-group { grid-column: auto; }
     
@@ -111,7 +109,7 @@ header p {
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-muted);
-    text-transform: uppercase; /* Aparência limpa de sistema ERP */
+    text-transform: uppercase; /* Aparência limpa  */
     letter-spacing: 0.05em;
 }
 
@@ -198,72 +196,216 @@ header p {
 }
 
 /* ==========================================================================
-   5. BOTÕES DE AÇÃO E MENUS DE STATUS
+   5. COMPONENTE MODAL (INTEGRADO AO DESIGN)
    ========================================================================== */
-.action-area {
+/* Fundo escurecido atrás do modal */
+.modal-container {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.4); /* Baseado na cor --primary com transparência */
+    backdrop-filter: blur(4px); /* Efeito de desfoque moderno no fundo */
+    z-index: 2000; /* Garante que fique acima de todos os elementos */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Caixa principal do modal  */
+/* Caixa principal do modal configurada para tamanho extra grande (XL) */
+.modal-conteudo {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);  
+    width: 95%;            /* Ocupa 95% da tela em monitores menores ou notebooks */
+    max-width: 1250px;     
+    
+    /* Mantém a estrutura vertical correta */
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin-top: 10px;
+    max-height: 90vh; 
+    position: relative;
+    overflow: hidden;
+    animation: modalEntrada 0.25s ease-out;
 }
 
-@media (min-width: 600px) {
-    .action-area {
-        flex-direction: row;
-        align-items: center;
-    }
+/* Cabeçalho interno do modal */
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fbfcfe;
 }
 
-.btn-success {
-    background-color: var(--success);
-    color: white;
+.modal-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+}
+
+/* Botão Fechar (X) discreto e moderno */
+.btn-fechar {
+    background: none;
     border: none;
-    height: 48px;
-    padding: 0 32px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: 8px;
+    font-size: 1.5rem;
+    color: var(--text-muted);
     cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
     transition: all 0.2s ease;
-    white-space: nowrap;
 }
 
-.btn-success:hover {
-    background-color: #047857;
-    box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
+.btn-fechar:hover {
+    background-color: #f1f5f9;
+    color: var(--primary);
 }
 
-/* Painel de Status Fluido */
-.status-box {
+/* Corpo do conteúdo  */
+.modal-body {
+    padding: 24px;    
     flex: 1;
-    height: 48px;
-    padding: 0 16px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
+    overflow-y: auto;    
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+/* Ajuste fino para a barra de rolagem no Chrome/Safari/Edge */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 10px;
+}
+/* Rodapé */
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
     display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    background-color: #fbfcfe;
+}
+
+/* Classe utilitária que o JavaScript ativa */
+.modal-container.mostrar {
+    display: flex;
+}
+
+/* Animação suave para o modal não surgir do nada */
+@keyframes modalEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================================================
+   5.1 BOTÕES DO MODAL (AÇÕES)
+   ========================================================================== */
+/* Base comum para os botões */
+.btn {
+    height: 42px;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
     align-items: center;
-    border: 1px solid transparent;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    border: none;
 }
 
-.status-waiting {
-    background-color: #fffbeb;
-    color: #b45309;
-    border-color: #fde68a;
+/* Botão Salvar  */
+.btn-salvar {
+    background-color: var(--accent);
+    color: #ffffff;
 }
 
-.status-success {
-    background-color: #ecfdf5;
-    color: #065f46;
-    border-color: #a7f3d0;
+.btn-salvar:hover {
+    background-color: #1d4ed8; /* Azul um pouco mais escuro para o efeito hover */
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
-.status-error {
-    background-color: #fef2f2;
-    color: #991b1b;
-    border-color: #fca5a5;
+/* Botão Cancelar (Discreto, para dar menor prioridade visual) */
+.btn-cancelar {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+
+.btn-cancelar:hover {
+    background-color: #f1f5f9;
+    color: var(--primary);
+    border-color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   6. TABELA DE PRODUTOS (DESIGN ERP)
+   ========================================================================== */
+.tabela-produtos {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.tabela-produtos th {
+    background-color: #f8fafc; /* Tom cinza sutil */
+    color: var(--primary);
+    font-weight: 700;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--border);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.tabela-produtos td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-main);
+    vertical-align: middle;
+}
+
+/* Efeito ao passar o mouse na linha */
+.tabela-produtos tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Botão de Excluir Produto da lista */
+.btn-excluir {
+    background-color: #fee2e2;
+    color: #ef4444;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-excluir:hover {
+    background-color: #ef4444;
+    color: #ffffff;
 }
