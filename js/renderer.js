@@ -67,21 +67,7 @@ function calcularImpostos() {
 }
 
 
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
 
-const app = express();
-const PORT = 3000;
-
-app.use(cors());
-app.use(express.json());
-
-// 📝 CONFIGURAÇÃO DO CERTIFICADO DIGITAL
-// Substitua pelo caminho real do arquivo .pfx e a senha do cliente
-const CERTIFICADO_PATH = path.join(__dirname, 'certificado.pfx'); 
-const CERTIFICADO_SENHA = 'senha_do_certificado_aqui';
 
 // Função para validar se o arquivo do certificado existe localmente
 function carregarCertificado() {
@@ -123,8 +109,6 @@ app.post('/emitir-nfe', (req, res) => {
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });
-
-
 
 
 ////GERANDO O XML

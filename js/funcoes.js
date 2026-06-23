@@ -52,20 +52,14 @@ window.addEventListener('click', (evento) => {
     }
 });
 
-const win = new BrowserWindow({
-    width: 1050,
-    height: 700,
-    webPreferences: {
-        nodeIntegration: true,     // <--- Ative isso
-        contextIsolation: false    // <--- Desative isso para liberar o require nativo
-    }
-});
 
 // ==========================================================================
 // FUNÇÃO PARA ADICIONAR PRODUTOS DO MODAL NA TABELA PRINCIPAL
 // ==========================================================================
 
 function adicionarProdutoNaTabela(evento) {
+
+    
     evento.preventDefault(); // Impede que a página recarregue ao submeter o form
 
     const corpoTabela = document.getElementById('corpoTabelaProdutos');
@@ -107,6 +101,7 @@ function adicionarProdutoNaTabela(evento) {
             <button class="btn-excluir" type="button">Excluir</button>
         </td>
     `;
+    
 
     // 5. Configura o botão de excluir especificamente para esta linha
     const btnExcluir = novaLinha.querySelector('.btn-excluir');
@@ -135,7 +130,7 @@ function adicionarProdutoNaTabela(evento) {
         formProduto.reset();
     }
 
-    // 8. Fecha o modal usando a função que estruturamos antes
+    // 8. Fecha o modal 
     if (typeof fecharOModal === 'function') {
         fecharOModal();
     }
@@ -147,5 +142,6 @@ function adicionarProdutoNaTabela(evento) {
 const formProduto = document.getElementById('formProduto');
 if (formProduto) {
     // Escuta o envio do formulário e chama a nossa nova função
+
     formProduto.addEventListener('submit', adicionarProdutoNaTabela);
 }
